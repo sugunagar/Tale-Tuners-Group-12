@@ -37,17 +37,17 @@ def signup():
         cpassword=request.form['cpassword']
         pnnumber=request.form['pnnumber']
         email=request.form['email']
-        
+
         if password == cpassword:
             cursor = db.cursor()
             cursor.execute("INSERT INTO users (firstname,lastname,email,pnnumber,password) VALUES (?,?,?,?,?)", (firstname,lastaname,email,pnnumber,password))
             db.commit()
             cursor.close()
             flash('1')
-            
+
         else:
             flash('2')
-            
+
         return render_template('./signup.html')
     return render_template('./signup.html')
 
@@ -63,7 +63,7 @@ def login():
         #print(user[0][1])
         cursor.close()  # Close the cursor after fetching the result
         cato_list=[["Adventure","adventure.jpeg"],["Fantasy","fantasy.jpeg"],["Horror","fiction.jpeg"],["Historical","historical.jpeg"],["Fiction","horror.jpeg"]]
-        
+
         if user:
             session['firstname'] = user[0][1]
             session['lastname'] = user[0][2]
@@ -81,9 +81,11 @@ def login():
 def category_selection():
     if request.method=='POST':
         selected_categories = request.form.getlist('gener')
+    else:
+        selected_categories = request.args.getlist('gener')
 
-        print(selected_categories)
-        return render_template('userPage.html',sc=selected_categories)
+    print(selected_categories)
+    return render_template('userPage.html',sc=selected_categories)
 
 
 # Logout
@@ -93,8 +95,8 @@ def logout():
     return redirect(url_for('login'))
 
 def send_mail(receiver_email,user_name):
-    sender_email = 'tejeshvenna@gail.com' 
-    receiver_email = f'{receiver_email}' 
+    sender_email = 'tejeshvenna@gail.com'
+    receiver_email = f'{receiver_email}'
     subject = 'Login Detected'
     message = f'''
 <pre style="font-family: Arial, Helvetica, sans-serif;text-align: justify;">
@@ -107,8 +109,8 @@ Login Detected
 
 
     smtp_server = 'smtp.gmail.com'
-    smtp_port = 587 
-    smtp_username = 'saikrishnabandi25@gmail.com'  
+    smtp_port = 587
+    smtp_username = 'saikrishnabandi25@gmail.com'
     smtp_password = os.environ.get('SMTP_PASSWORD', '')
 
 
