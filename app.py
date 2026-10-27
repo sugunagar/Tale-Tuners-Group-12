@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import mysql.connector
+import sqlite3
 import os
 import smtplib
 from email.mime.text import MIMEText
@@ -10,19 +10,19 @@ from email.mime.image import MIMEImage
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-# Configure MySQL
+# Configure database (SQLite file, no server needed)
 
-db = mysql.connector.connect(
-
-    host=os.environ.get('DB_HOST'),
-
-    user=os.environ.get('DB_USER'),
-
-    password=os.environ.get('DB_PASSWORD'),
-
-    database=os.environ.get('DB_NAME')
-
-)
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'storytel.db')
+db = sqlite3.connect(DB_PATH, check_same_thread=False)
+db.execute('''CREATE TABLE IF NOT EXISTS users (
+    userid INTEGER PRIMARY KEY AUTOINCREMENT,
+    firstname VARCHAR(26),
+    lastname VARCHAR(26),
+    email VARCHAR(30),
+    pnnumber INTEGER,
+    password VARCHAR(20)
+)''')
+db.commit()
 
 # Set a secret key for session management
 app.secret_key = 'storytel'
@@ -40,7 +40,7 @@ def signup():
         
         if password == cpassword:
             cursor = db.cursor()
-            cursor.execute("INSERT INTO users (firstname,lastname,email,pnnumber,password) VALUES (%s, %s,%s,%s,%s)", (firstname,lastaname,email,pnnumber,password))
+            cursor.execute("INSERT INTO users (firstname,lastname,email,pnnumber,password) VALUES (?,?,?,?,?)", (firstname,lastaname,email,pnnumber,password))
             db.commit()
             cursor.close()
             flash('1')
