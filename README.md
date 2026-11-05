@@ -15,7 +15,8 @@
   <img src="https://cdn.simpleicons.org/pythonanywhere/1D9FD7" alt="PythonAnywhere" width="40" height="40" />
 </p>
 
-Live Demo: `https://suguna.pythonanywhere.com` · Built by Group 12, University of North Texas — 7 members. Suguna Garmidi was Scrum Master.
+Live Demo: https://suguna.pythonanywhere.com  
+Built by Group 12, University of North Texas — 7 members. Suguna Garmidi was Scrum Master.
 
 </div>
 
