@@ -1,6 +1,5 @@
 <div align="center">
 
-![Tale Tuners — a parent reading a glowing storybook to a child under a starry night sky](assets/banner.png)
 
 # Tale Tuners
 
